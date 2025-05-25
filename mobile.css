@@ -1,0 +1,44 @@
+﻿/* 手机端导航栏样式 */
+.mobile-nav {
+    background-color: #00bcd4; /* 天蓝色导航栏 */
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.mobile-nav ul {
+    display: flex;
+    flex-direction: row; /* 确保水平排列 */
+
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav ul li {
+    list-style: none;
+}
+
+.mobile-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.mobile-nav ul li a:hover {
+    background-color: #0097a7; /* 深天蓝色悬停效果 */
+}
+
+.desktop-nav {
+    display: none; /* 隐藏电脑端导航栏 */
+}
+
+/* 调整内容区域间距 */
+.content {
+    padding-bottom: 60px; /* 避免内容被手机端导航栏遮挡 */
+}
+

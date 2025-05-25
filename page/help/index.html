@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 页头 -->
+        <header class="header">
+            <h1>帮助中心</h1>
+            <p>我们在这里为您提供支持</p>
+        </header>
+
+        <!-- 搜索框 -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="输入关键词搜索帮助内容...">
+            <button id="searchButton">搜索</button>
+        </div>
+
+        <!-- 搜索结果 -->
+        <div id="searchResults" class="search-results"></div>
+
+        <!-- 主要内容 -->
+        <main class="main-content">
+            <!-- 常见问题 -->
+            <section class="faq">
+                <h2>常见问题</h2>
+                <div class="faq-item" data-keywords="注册 账号 创建">
+                    <h3>如何注册账号？</h3>
+                    <p>点击页面右上角的“注册”按钮，填写相关信息即可完成注册。</p>
+                </div>
+                <div class="faq-item" data-keywords="密码 重置 忘记密码">
+                    <h3>如何重置密码？</h3>
+                    <p>在登录页面点击“忘记密码”，按照提示操作即可重置密码。</p>
+                </div>
+                <div class="faq-item" data-keywords="客服 联系 支持">
+                    <h3>如何联系客服？</h3>
+                    <p>您可以通过页面底部的联系方式或在线客服与我们取得联系。</p>
+                </div>
+                <div class="faq-item" data-keywords="支付 付款 订阅">
+                    <h3>如何支付订阅费用？</h3>
+                    <p>在账户设置中选择“订阅”，然后按照提示完成支付。</p>
+                </div>
+                <div class="faq-item" data-keywords="隐私 数据 安全">
+                    <h3>我的数据安全吗？</h3>
+                    <p>我们采用最先进的加密技术来保护您的数据安全。</p>
+                </div>
+            </section>
+
+            <!-- 联系方式 -->
+            <section class="contact">
+                <h2>联系方式</h2>
+                <ul>
+                    <li>电话：123-456-7890</li>
+                    <li>邮箱：support@example.com</li>
+                    <li>在线客服：点击右下角聊天图标</li>
+                </ul>
+            </section>
+
+            <!-- 帮助文档 -->
+            <section class="docs">
+                <h2>帮助文档</h2>
+                <p>访问我们的帮助文档以获取更多信息：</p>
+                <a href="#" class="button">查看帮助文档</a>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>&copy; 2023 聊天网站. 保留所有权利.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript 实现搜索功能 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const searchResults = document.getElementById('searchResults');
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            // 搜索功能
+            function searchFAQ() {
+                const query = searchInput.value.trim().toLowerCase();
+                searchResults.innerHTML = ''; // 清空之前的搜索结果
+
+                if (query === '') {
+                    searchResults.style.display = 'none'; // 如果搜索框为空，隐藏结果区域
+                    return;
+                }
+
+                let hasResults = false;
+                faqItems.forEach(item => {
+                    const keywords = item.getAttribute('data-keywords').toLowerCase();
+                    const question = item.querySelector('h3').textContent.toLowerCase();
+                    const answer = item.querySelector('p').textContent.toLowerCase();
+
+                    // 检查关键词是否匹配
+                    if (keywords.includes(query) || question.includes(query) || answer.includes(query)) {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'faq-item';
+                        resultItem.innerHTML = `
+                            <h3>${item.querySelector('h3').textContent}</h3>
+                            <p>${item.querySelector('p').textContent}</p>
+                        `;
+                        searchResults.appendChild(resultItem);
+                        hasResults = true;
+                    }
+                });
+
+                if (hasResults) {
+                    searchResults.style.display = 'block'; // 显示结果区域
+                } else {
+                    searchResults.innerHTML = '<p>未找到相关结果。</p>';
+                    searchResults.style.display = 'block';
+                }
+            }
+
+            // 绑定搜索按钮点击事件
+            searchButton.addEventListener('click', searchFAQ);
+
+            // 绑定输入框回车事件
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    searchFAQ();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

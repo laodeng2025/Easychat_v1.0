@@ -1,0 +1,18 @@
+﻿/* 电脑端导航栏样式 */
+.desktop-nav {
+    background-color: #00bcd4; /* 天蓝色导航栏 */
+    padding: 10px;
+    display: flex;
+    justify-content: center; /* 水平居中对齐 */
+}
+
+.desktop-nav ul {
+    display: flex;
+    justify-content: center; /* 确保导航选项居中对齐 */
+    width: 100%; /* 让 ul 占据整个导航栏宽度 */
+}
+
+.mobile-nav {
+    display: none; /* 隐藏手机端导航栏 */
+}
+

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天室 {chatroom_id}</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- 聊天室名称 -->
+        <h1>聊天室 {chatroom_id}</h1>
+
+        <!-- 消息显示区域 -->
+        <div id="message-container" class="message-container">
+            {messages}
+        </div>
+
+        <!-- 消息输入框 -->
+        <form id="message-form" method="post" class="message-form">
+            <input type="text" name="message" placeholder="输入消息..." required>
+            <button type="submit">发送</button>
+        </form>
+    </div>
+
+    <script>
+        // 自动滚动到底部
+        function scrollToBottom() {
+            const container = document.getElementById('message-container');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 页面加载后滚动到底部
+        scrollToBottom();
+
+        // 处理消息提交
+        $('#message-form').on('submit', function (e) {
+            e.preventDefault();
+            const message = $('input[name="message"]').val();
+
+            $.post('chat.php?id={chatroom_id}', { message: message }, function () {
+                // 清空输入框
+                $('input[name="message"]').val('');
+
+                // 重新加载消息
+                loadMessages();
+            });
+        });
+
+        // 加载消息
+        function loadMessages(date = '{current_date}') {
+            $.get('load_messages.php', { id: {chatroom_id}, date: date }, function (data) {
+                $('#message-container').prepend(data);
+            });
+        }
+
+        // 滚动到顶部时加载前一天的消息
+        $('#message-container').on('scroll', function () {
+            const container = $(this);
+            if (container.scrollTop() === 0) {
+                const firstMessage = container.find('.message').first();
+                const messageDate = firstMessage.data('date');
+
+                if (messageDate) {
+                    const prevDate = new Date(messageDate);
+                    prevDate.setDate(prevDate.getDate() - 1);
+                    const prevDateStr = prevDate.toISOString().split('T')[0];
+
+                    loadMessages(prevDateStr);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
